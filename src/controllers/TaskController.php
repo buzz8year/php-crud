@@ -90,7 +90,6 @@ class TaskController extends BaseController
 			$query = '?r=task&sort=' . $toSession['sort'] . '&page=' . $toSession['page'];
 
 			$this->redirect($query);
-
 		}
 
 	}
@@ -109,7 +108,6 @@ class TaskController extends BaseController
         $orderBy = Strings::prepareOrderBy($_SESSION['args']['sort'], Task::SORT_DEFAULT);
 
 		$this->prepared = Task::getSlice($orderBy, $limit, $offset);
-
 
 		// EXPLAIN: ...
 		$pages = intval($this->countAll / self::PAGE_LIMIT) + intval($this->countAll % self::PAGE_LIMIT > 0 ? 1 : 0);
