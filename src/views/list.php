@@ -55,38 +55,43 @@
 
 	<tbody>
 	<?php if (isset($data['tasks']) && sizeof($data['tasks'])) : ?>
-	<?php foreach ($data['tasks'] as $key => $task) : ?>
+		<?php foreach ($data['tasks'] as $key => $task) : ?>
 
-		<tr>
-			<td><?= $task->getId() ?></td>
-			<td><?= $task->getName() ?></td>
-			<td><?= $task->getUserEmail() ?></td>
-			<td><?= htmlspecialchars($task->getText()) ?></td>
+			<tr>
+				<td><?= $task->getId() ?></td>
+				<td><?= $task->getName() ?></td>
+				<td><?= $task->getUserEmail() ?></td>
+				<td>
+					<?php 
+						// WARNING: As to xss-potential text, - htmlspecialchars() is obligatory!
+						print htmlspecialchars($task->getText());
+					?>
+				</td>
 
-			<td class="text-primary">
 
-				<?php if ($task->getStatus() === 1) : ?>
+				<td class="text-primary">
 
-					<i class="glyphicon glyphicon-time"></i>
+					<?php if ($task->getStatus() === 1) : ?>
 
-					<span class="change-status" data-id="<?= $task->getId() ?>" style="cursor:pointer"> in progress </span>
+						<i class="glyphicon glyphicon-time"></i>
+						<span class="change-status" data-id="<?= $task->getId() ?>" title="Mark as completed" style="cursor:pointer"> in progress </span>
 
-				<?php elseif ($task->getStatus() === 2) : ?>
+					<?php elseif ($task->getStatus() === 2) : ?>
 
-					<i class="glyphicon glyphicon-ok"></i>
-					<span>completed</span>
+						<i class="glyphicon glyphicon-ok"></i>
+						<span>completed</span>
 
-				<?php endif; ?>
+					<?php endif; ?>
 
-			</td>
+				</td>
 
-			<td>
-				<a href="<?= $data['current_path'] ?>/update&id=<?= $task->getId() ?>"> Edit <?php if ($task->getEdited() === 1) print '(edited by admin)'; ?></a>
-			</td>
+				<td>
+					<a href="<?= $data['current_path'] ?>/update&id=<?= $task->getId() ?>"> Edit <?php if ($task->getEdited() === 1) print '(edited by admin)'; ?></a>
+				</td>
 
-		</tr>
+			</tr>
 
-	<?php endforeach; ?>
+		<?php endforeach; ?>
 	<?php endif; ?>
 	</tbody>
 
@@ -127,7 +132,6 @@ $(document).on('click', '.change-status', function(){
                 location.reload();
             },			
 		});
-
 	}
 });
 
@@ -136,7 +140,6 @@ $(document).ready(function(){
 		$('.flash-message').fadeOut(2000);
 	}, 4000);
 });
-
 
 </script>
 

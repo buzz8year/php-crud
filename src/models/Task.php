@@ -6,8 +6,8 @@ use db\Querier;
 
 // EXPLAIN: Soft Dependency Injection / 
 // method(... , \PDO $pdo = null) /
-// down here in this class is used 
-// for future Unit testing purposes
+// down here in this class is used /
+// for future unit testing purposes
 
 class Task 
 {
@@ -26,7 +26,7 @@ class Task
     private $task;
 
     // EXPLAIN: ...
-    public static $slice = [];
+    public static $slice = array();
 
 
     // EXPLAIN: ...
@@ -37,8 +37,9 @@ class Task
             $pdo = Querier::readInstance();
         }
 
-        // WARNING: As to hardcoded $orderBy, - table and column 
+        // WARNING: As to hardcoded $orderBy, - table and column /
         // names CANNOT be replaced by parameters, in PDO 
+        // NOTE: Double quotes 
         $handle = $pdo->prepare("
             SELECT id, user_email, name, text, status, edited 
             FROM `task` 
@@ -47,14 +48,16 @@ class Task
             OFFSET :slice_offset
         ");
 
-        $handle->execute(array(
-            'slice_limit' => $limit,
-            'slice_offset' => $offset,
-        ));
+        $handle->execute(
+            array(
+                'slice_limit' => $limit,
+                'slice_offset' => $offset,
+            )
+        );
 
         while ($object = $handle->fetchObject('\models\Task')) 
         {
-            self::$slice[intval($object->getId())] = $object;
+            self::$slice[(int)$object->getId()] = $object;
         }
 
     }
@@ -80,11 +83,11 @@ class Task
             $pdo = Querier::readInstance();
         }
 
-        $handle = $pdo->prepare("
+        $handle = $pdo->prepare('
             SELECT id, user_email, name, text, status, edited 
             FROM `task` 
             WHERE id = :id
-        ");
+        ');
 
         $handle->execute(
             array(
@@ -116,7 +119,7 @@ class Task
             $pdo = Querier::readInstance();
         }
 
-        $handle = $pdo->prepare("SELECT count(*) FROM `task`");
+        $handle = $pdo->prepare('SELECT count(*) FROM `task`');
         $handle->execute();
 
         return $handle->fetchColumn();  
@@ -142,7 +145,7 @@ class Task
                 $pdo = Querier::readInstance();
             }
 
-            $handle = $pdo->prepare("
+            $handle = $pdo->prepare('
                 INSERT INTO `task` 
                 (
                     user_email,
@@ -151,7 +154,7 @@ class Task
                     name,
                     text
                 ) 
-                VALUE 
+                VALUES 
                 (
                     :user_email,
                     :status,
@@ -159,16 +162,21 @@ class Task
                     :name,
                     :text
                 ) 
-            ");
+            ');
 
+            // EXPLAIN: As to :text, - htmlentities() or none of its siblings 
+            // is not used to write to text value, for the convience of parsing 
+            // xss-potential injection attempts and trials, chiefly on big portions of data.
 
+            // JUSTIFY: Instead, htmlspecialchars() or one of its siblings 
+            // is obligatory on rendering xss-potential data in client browser.
             return $handle->execute(
                 array(
                     ':edited'       => 0,
                     ':status'       => 1,
                     ':name'         => $data['task_name'],
                     ':user_email'   => $data['task_usermail'],
-                    ':text'         => htmlentities($data['task_text']),
+                    ':text'         => $data['task_text'],
                 )
             );
 
@@ -195,7 +203,7 @@ class Task
                 $pdo = Querier::readInstance();
             }
 
-            $handle = $pdo->prepare("
+            $handle = $pdo->prepare('
                 UPDATE `task` SET
                     user_email = :user_email,
                     status = :status,
@@ -203,7 +211,7 @@ class Task
                     name = :name,
                     text = :text
                 WHERE id = :id
-            ");
+            ');
 
 
             // EXPLAIN: As to :text, - htmlentities() or none of its siblings 

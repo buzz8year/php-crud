@@ -3,16 +3,9 @@
 namespace helpers;
 
 
+// EXPLAIN: ...
 class Url
 {
-    // EXPLAIN: ...
-	public static function getQuery() : ?string
-	{	
-        $exp = explode('/', $_SERVER['REQUEST_URI']);
-		return ltrim(end($exp), '?');
-	}
-
-
     // EXPLAIN: ...
     public static function getBasePath()
     {
@@ -36,8 +29,6 @@ class Url
         // WARNING: filter_var() returns (bool)false if filter is not validated, - rethink...
         return filter_var($protocol . $domainName . $public, FILTER_VALIDATE_URL);        
     }
-
-
 
 
     // EXPLAIN: ...

@@ -24,16 +24,15 @@
 		<form action="<?= $data['form_action'] ?>" method="post">
 
 			<div class="form-group">
-				<!-- <input type="email" class="form-control" name="task_usermail" id="task-usermail" placeholder="Your email..." required> -->
-				<input type="text" class="form-control" name="task_usermail" id="task-usermail" placeholder="Your email..." required>
+				<input type="text" class="form-control" name="task_usermail" placeholder="Your email..." required>
 			</div>
 
 			<div class="form-group">
-				<input type="text" class="form-control" name="task_name" id="task-name" placeholder="Task name...">
+				<input type="text" class="form-control" name="task_name" placeholder="Task name...">
 			</div>
 
 			<div class="form-group">
-				<textarea class="form-control" rows="5" name="task_text" id="task-text" placeholder="Task summary..."></textarea>
+				<textarea class="form-control" rows="5" name="task_text" placeholder="Task summary..."></textarea>
 			</div>
 
 			<br/><br/>

@@ -25,15 +25,18 @@
 
 			<div class="form-group">
 				<input type="hidden" name="task_id" value="<?= ($data['task'])->getId() ?>" >
-				<input type="email" class="form-control" name="task_usermail" id="task-usermail" placeholder="Your email..." required value="<?= ($data['task'])->getUserEmail() ?>" >
+				<input type="email" class="form-control" name="task_usermail" placeholder="Your email..." required value="<?= ($data['task'])->getUserEmail() ?>" >
 			</div>
 
 			<div class="form-group">
-				<input type="text" class="form-control" name="task_name" id="task-name" placeholder="Task name..." value="<?= ($data['task'])->getName() ?>" >
+				<input type="text" class="form-control" name="task_name" placeholder="Task name..." value="<?= ($data['task'])->getName() ?>" >
 			</div>
 
 			<div class="form-group">
-				<textarea class="form-control" rows="5" name="task_text" id="task-text" placeholder="Task summary..."><?= htmlspecialchars_decode(($data['task'])->getText()) ?></textarea>
+				<textarea class="form-control" rows="5" name="task_text" placeholder="Task summary..."><?php 
+					// WARNING: As to xss-potential text, - htmlspecialchars() is obligatory!
+					print htmlspecialchars(($data['task'])->getText());
+				?></textarea>
 			</div>
 
 			<br/><br/>
