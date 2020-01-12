@@ -25,11 +25,11 @@
 
 			<div class="form-group">
 				<input type="hidden" name="task_id" value="<?= ($data['task'])->getId() ?>" >
-				<input type="email" class="form-control" name="task_usermail" placeholder="Your email..." required value="<?= ($data['task'])->getUserEmail() ?>" >
+				<input type="email" class="form-control" name="task_usermail" value="<?= ($data['task'])->getUserEmail() ?>" placeholder="Your email..." readonly>
 			</div>
 
 			<div class="form-group">
-				<input type="text" class="form-control" name="task_name" placeholder="Task name..." value="<?= ($data['task'])->getName() ?>" >
+				<input type="text" class="form-control" name="task_name" placeholder="Task name..." value="<?= ($data['task'])->getName() ?>" readonly>
 			</div>
 
 			<div class="form-group">

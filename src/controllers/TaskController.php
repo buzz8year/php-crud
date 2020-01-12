@@ -170,11 +170,19 @@ class TaskController extends BaseController
 		if (UserAuth::isUserAuthenticated()) 
 		{
 			// EXPLAIN: ...
-			if (!empty($_GET['id']) && ($task = Task::get($_GET['id']))) 
+			if (!empty($_GET['id'])) 
 			{
+				$task = Task::get($_GET['id']);
+
 				// EXPLAIN: ...
-				if (!empty($_POST) && $this->validate()) 
+				if (!empty($task) && !empty($_POST) && $this->validate()) 
 				{
+					if ($_POST['task_text'] === $task->getText()) 
+					{
+						$_SESSION['flash']['message'] = 'Nothing changed, not updated';
+						$this->refresh();
+					}
+
 					if ($task->update($_POST))
 					{
 						$_SESSION['flash']['message'] = 'Task has been successfully updated';
@@ -183,12 +191,12 @@ class TaskController extends BaseController
 				}
 
 				// EXPLAIN: ...
-				$data = [
+				$data = array(
 					'task' => $task,
 					'message' => empty($_SESSION['flash']['message']) ? null : $_SESSION['flash']['message'],
 					'form_action' => Url::getCurrentPath() . '&id=' . $task->getId(),
 					'basepath' => Url::getBasePath(),
-				];
+				);
 
 				$this->view('update', $data);
 			}
@@ -238,7 +246,8 @@ class TaskController extends BaseController
 	// EXPLAIN: ...
 	protected function validate() : bool
 	{
-		if (empty($_POST['task_usermail']) || empty($_POST['task_name']) || empty($_POST['task_text'])) {
+		if (empty($_POST['task_usermail']) || empty($_POST['task_name']) || empty($_POST['task_text'])) 
+		{
 			$_SESSION['flash']['message'] = 'Please, fill in all fields.';
 			return false;
 		}
