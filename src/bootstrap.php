@@ -17,8 +17,7 @@ try {
 	$dispatcher->dispatch();
 
 } 
-catch (\Exception $e) {
-
+catch (\Exception $e) 
+{
 	// TODO: Error handler to catch app specific case errors
-
 }
