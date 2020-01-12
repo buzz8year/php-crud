@@ -25,12 +25,17 @@ class Dispatcher
 	public function dispatch()
 	{
 		// EXPLAIN: ...
-		if ( !empty($this->className) ) 
+		if (empty($this->className)) 
+		{
+			header('Location: ' . Url::getCurrentPath());
+			die;
+		}
+		else
 		{
 			$className = '\controllers\\' . $this->className . 'Controller';
 			$objController = new $className();
 
-			if ( method_exists($objController, $this->methodName) )
+			if (method_exists($objController, $this->methodName))
 			{
 				$objController->{$this->methodName}();
 			}
@@ -39,11 +44,7 @@ class Dispatcher
 				header('HTTP/1.0 404');
 				die;
 			}
-		}
-		else
-		{
-			header('Location: ' . Url::getCurrentPath());
-			die;
+
 		}
 
 	}

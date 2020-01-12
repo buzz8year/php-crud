@@ -3,10 +3,11 @@
 require_once 'autoload.php';
 require_once 'config.php';
 
-
 use app\Dispatcher;
 
-try {
+
+try 
+{
 	session_start();
 
 	// EXPLAIN: ...
