@@ -18,7 +18,7 @@ class Querier
                 sprintf("mysql:host=%s;port=%u;dbname=%s;charset=UTF8", MYSQL_HOST, MYSQL_PORT, MYSQL_DB),
                 MYSQL_USER,
                 MYSQL_PASS,
-                array( // EXPLAIN: ...
+                array(
                     \PDO::MYSQL_ATTR_INIT_COMMAND => 'set names utf8',
                     \PDO::ATTR_EMULATE_PREPARES => false
                 )
