@@ -15,10 +15,6 @@ use interfaces\ControllerInterface;
 
 class BaseController implements ControllerInterface
 {
-	public $user;
-	public $view;
-
-
 	// EXPLAIN: ...
 	public function refresh()
 	{
