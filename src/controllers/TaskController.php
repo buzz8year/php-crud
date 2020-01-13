@@ -103,9 +103,9 @@ class TaskController extends BaseController
 		// EXPLAIN: ...
 		$this->processGet();
 
-        $limit = self::PAGE_LIMIT;
-        $offset = $limit * ((int)$_SESSION['args']['page'] - 1);
-        $orderBy = Strings::prepareOrderBy($_SESSION['args']['sort'], Task::SORT_DEFAULT);
+		$limit = self::PAGE_LIMIT;
+		$offset = $limit * ((int)$_SESSION['args']['page'] - 1);
+		$orderBy = Strings::prepareOrderBy($_SESSION['args']['sort'], Task::SORT_DEFAULT);
 
 		$this->prepared = Task::getSlice($orderBy, $limit, $offset);
 
