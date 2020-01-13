@@ -4,27 +4,23 @@ namespace controllers;
 
 use app\View;
 use helpers\Url;
+use interfaces\ControllerInterface;
 
 
-// EXPLAIN: BaseController is prefered over ControllingInterface, /
+// EXPLAIN: Extendable BaseController class is prefered over interface, /
 // since if it was interface, we would have to implement below /
 // methods in each controller class; yet, that implementations /
-// would be completely same in both controllers classes, which /
+// would be completely same in all controllers classes, which /
 // turns out meaningless in the furtherance of this goal.
 
-class BaseController
+class BaseController implements ControllerInterface
 {
 	public $user;
 	public $view;
 
 
-	public function __construct()
-	{
-	}
-
-
 	// EXPLAIN: ...
-	protected function refresh()
+	public function refresh()
 	{
 		// EXPLAIN: Refreshing page
 		header('Location: ' . Url::getCurrentPath());
@@ -33,7 +29,7 @@ class BaseController
 
 
 	// EXPLAIN: ...
-	protected function redirect(string $query = null)
+	public function redirect(string $query = null)
 	{
 		// EXPLAIN: ...
 		header('Location: ' . Url::getBasePath() . $query);
@@ -41,7 +37,7 @@ class BaseController
 	}
 
 
-	protected function view(string $template, array $data)
+	public function view(string $template, array $data)
 	{
 		// EXPLAIN: ...
 		$view = new View($template);
