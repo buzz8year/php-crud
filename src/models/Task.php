@@ -220,7 +220,7 @@ class Task
 
             // JUSTIFY: Instead, htmlspecialchars() or one of its siblings 
             // is obligatory on rendering xss-potential data in client browser.
-            $edited = ( $this->getText() === 0 && !empty( $data['task_text'] ) ) ? 1 : 0;
+            $edited = ( $this->getEdited() === 0 && !empty( $data['task_text'] ) ) ? 1 : 0;
 
             return $handle->execute(
                 array(
