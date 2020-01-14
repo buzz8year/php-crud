@@ -213,6 +213,14 @@ class Task
                 WHERE id = :id
             ');
 
+            if ( empty( $data['task_text'] ) ) 
+            {
+                $edited = $this->getEdited();
+            }
+            else
+            {
+                $edited = $data['task_text'] === $this->getText() ? 0 : 1;
+            }
 
             // EXPLAIN: As to :text, - htmlentities() or none of its siblings 
             // is not used to write to text value, for the convience of parsing 
@@ -220,7 +228,6 @@ class Task
 
             // JUSTIFY: Instead, htmlspecialchars() or one of its siblings 
             // is obligatory on rendering xss-potential data in client browser.
-            $edited = ( $this->getEdited() === 0 && !empty( $data['task_text'] ) ) ? 1 : 0;
 
             return $handle->execute(
                 array(
