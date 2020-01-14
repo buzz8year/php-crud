@@ -229,7 +229,7 @@ class Task
                     ':user_email'   => $data['task_usermail'] ?? $this->getUserEmail(),
                     ':status'       => $data['task_status'] ?? $this->getStatus(),
                     ':text'         => $data['task_text'] ?? $this->getText(),
-                    ':edited'       => ,
+                    ':edited'       => $edited,
                 )
             );
 
