@@ -61,7 +61,7 @@ class TaskController extends BaseController
 			$toSession['sort'] = $_GET['sort'];
 			$this->sortInvert = boolval(strpos($_GET['sort'], '-') === false);
 
-			if (!$this->sortInvert && ltrim($_GET['sort'], '-') === $_SESSION['args']['sort']) 
+			if (!$this->sortInvert && ltrim($_GET['sort'], '-') === ltrim($_SESSION['args']['sort'], '-')) 
 			{
 				$toSession['page'] = intval($_SESSION['page-amount']);
 			}
