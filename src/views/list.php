@@ -118,12 +118,10 @@
 
 
 <script type="text/javascript">
-
 $(document).on('click', '.change-status', function(){
 	if ( confirm('Sure to set task status \'Completed\'?') ) 
 	{ 
 		var id = $(this).attr('data-id');
-
 		$.ajax({
             url: '<?= $data['current_path'] ?>/finalize',
             data: { id: id },
@@ -134,13 +132,11 @@ $(document).on('click', '.change-status', function(){
 		});
 	}
 });
-
 $(document).ready(function(){
 	setTimeout(function(){
 		$('.flash-message').fadeOut(2000);
 	}, 4000);
 });
-
 </script>
 
 
@@ -148,5 +144,3 @@ $(document).ready(function(){
 
 </body>
 </html>
-
-

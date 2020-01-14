@@ -220,6 +220,8 @@ class Task
 
             // JUSTIFY: Instead, htmlspecialchars() or one of its siblings 
             // is obligatory on rendering xss-potential data in client browser.
+            $edited = ( $this->getText() === 0 && !empty( $data['task_text'] ) ) ? 1 : 0;
+
             return $handle->execute(
                 array(
                     ':id'           => $data['task_id'] ?? $this->getId(),
@@ -227,7 +229,7 @@ class Task
                     ':user_email'   => $data['task_usermail'] ?? $this->getUserEmail(),
                     ':status'       => $data['task_status'] ?? $this->getStatus(),
                     ':text'         => $data['task_text'] ?? $this->getText(),
-                    ':edited'       => empty($data['task_text']) ? 0 : 1,
+                    ':edited'       => ,
                 )
             );
 
