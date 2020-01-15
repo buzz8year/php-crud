@@ -61,6 +61,7 @@ class TaskController extends BaseController
 			$toSession['sort'] = $_GET['sort'];
 			$this->sortInvert = boolval(strpos($_GET['sort'], '-') === false);
 
+			// EXPLAIN: ...
 			if (!$this->sortInvert && ltrim($_GET['sort'], '-') !== ltrim($_SESSION['args']['sort'], '-')) 
 			{
 				$toSession['page'] = intval($_SESSION['page-amount']);
@@ -81,8 +82,9 @@ class TaskController extends BaseController
 		// EXPLAIN: ...
 		if (isset($_SESSION['args']) && empty(array_diff($toSession, $_SESSION['args']))) 
 		{
-			var_dump($toSession);
-			var_dump($_SESSION);
+			// TODO: Remove
+			// var_dump($toSession);
+			// var_dump($_SESSION);
 		}
 		else 
 		{
