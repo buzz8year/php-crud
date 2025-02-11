@@ -4,7 +4,7 @@ namespace models;
 
 use db\PDOFactory;
 
-// EXPLAIN: Soft Dependency Injection / 
+// NOTE: Soft Dependency Injection / 
 // method(... , \PDO $pdo = null) /
 // down here in this class is used 
 // for future unit testing purposes
