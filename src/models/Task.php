@@ -2,16 +2,11 @@
 
 namespace models;
 
-use db\Querier;
+use db\PDOFactory;
 
-// EXPLAIN: Soft Dependency Injection / 
-// method(... , \PDO $pdo = null) /
-// down here in this class is used /
-// for future unit testing purposes
 
 class Task 
 {
-    // EXPLAIN: ...
     const STATUS_COMPLETED = 2;
     const SORT_DEFAULT = 'id';
 
@@ -22,19 +17,18 @@ class Task
     protected $user_email;
     protected $edited;
 
-    // EXPLAIN: ...
     private $task;
 
-    // EXPLAIN: ...
     public static $slice = array();
 
 
-    // EXPLAIN: ...
+    // NOTE: Soft Dependency Injection method(... , \PDO $pdo = null) /
+    // down here in this class is used for future unit testing purposes
     public static function populateSlice(string $orderBy, int $limit, int $offset, \PDO $pdo = null) : void
     {
         if (!isset($pdo)) 
         {
-            $pdo = Querier::readInstance();
+            $pdo = PDOFactory::readInstance();
         }
 
         // WARNING: As to hardcoded $orderBy, - table and column /
@@ -63,24 +57,19 @@ class Task
     }
 
 
-
-    // EXPLAIN: ...
     public static function getSlice(string $orderBy = null, int $limit, int $offset)
     {
-        // EXPLAIN: ...
         self::populateSlice($orderBy, $limit, $offset);
 
         return self::$slice;
     }
 
 
-
-    // EXPLAIN: ...
     public static function get(int $id, \PDO $pdo = null) : Task
     {
         if (!isset($pdo)) 
         {
-            $pdo = Querier::readInstance();
+            $pdo = PDOFactory::readInstance();
         }
 
         $handle = $pdo->prepare('
@@ -111,12 +100,11 @@ class Task
     }
 
 
-    // EXPLAIN: ...
     public static function countAll(\PDO $pdo = null)
     {
         if (!isset($pdo)) 
         {
-            $pdo = Querier::readInstance();
+            $pdo = PDOFactory::readInstance();
         }
 
         $handle = $pdo->prepare('SELECT count(*) FROM `task`');
@@ -126,11 +114,6 @@ class Task
     }
 
 
-
-
-
-
-    // EXPLAIN: ...
    public function create(array $data, \PDO $pdo = null) : bool
     {
         if (empty($data)) 
@@ -142,7 +125,7 @@ class Task
         {
             if (empty($pdo)) 
             {
-                $pdo = Querier::readInstance();
+                $pdo = PDOFactory::readInstance();
             }
 
             $handle = $pdo->prepare('
@@ -164,7 +147,7 @@ class Task
                 ) 
             ');
 
-            // EXPLAIN: As to :text, - htmlentities() or none of its siblings 
+            // NOTE: As to :text, - htmlentities() or none of its siblings 
             // is not used to write to text value, for the convience of parsing 
             // xss-potential injection attempts and trials, chiefly on big portions of data.
 
@@ -185,10 +168,6 @@ class Task
     }
 
 
-
-
-
-    // EXPLAIN: ...
     public function update(array $data, \PDO $pdo = null) : bool
     {
         if (empty($data)) 
@@ -200,7 +179,7 @@ class Task
         {
             if (empty($pdo)) 
             {
-                $pdo = Querier::readInstance();
+                $pdo = PDOFactory::readInstance();
             }
 
             $handle = $pdo->prepare('
@@ -222,7 +201,7 @@ class Task
                 $edited = $data['task_text'] === $this->getText() ? 0 : 1;
             }
 
-            // EXPLAIN: As to :text, - htmlentities() or none of its siblings 
+            // NOTE: As to :text, - htmlentities() or none of its siblings 
             // is not used to write to text value, for the convience of parsing 
             // xss-potential injection attempts and trials, chiefly on big portions of data.
 
@@ -243,9 +222,6 @@ class Task
         }
 
     }
-
-
-
 
 
     // EXPLAIN: Setters and getters
