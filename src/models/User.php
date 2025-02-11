@@ -2,7 +2,7 @@
 
 namespace models;
 
-use db\Querier;
+use db\PDOFactory;
 
 // EXPLAIN: Soft Dependency Injection / 
 // method(... , \PDO $pdo = null) /
@@ -21,7 +21,7 @@ class User
     {
         if (!isset($pdo)) 
         {
-            $pdo = Querier::readInstance();
+            $pdo = PDOFactory::readInstance();
         }
 
         $handle = $pdo->prepare('
@@ -51,7 +51,7 @@ class User
 
         if (!isset($pdo)) 
         {
-            $pdo = Querier::readInstance();
+            $pdo = PDOFactory::readInstance();
         }
 
         $handle = $pdo->prepare('
