@@ -2,7 +2,7 @@
 
 namespace db;
 
-class Querier
+class PDOFactory
 {
 
     protected static $pdo_written_instance;
