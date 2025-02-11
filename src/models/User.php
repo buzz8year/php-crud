@@ -4,10 +4,6 @@ namespace models;
 
 use db\PDOFactory;
 
-// NOTE: Soft Dependency Injection / 
-// method(... , \PDO $pdo = null) /
-// down here in this class is used 
-// for future unit testing purposes
 
 class User
 {
@@ -17,6 +13,7 @@ class User
     protected $login;
 
 
+    // NOTE: Soft Dependency Injection method(... , \PDO $pdo = null) is used for testing purposes
     public static function get($id, \PDO $pdo = null) : User
     {
         if (!isset($pdo)) 
