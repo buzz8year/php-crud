@@ -41,7 +41,7 @@ class Dispatcher
 			}
 			else 
 			{
-				header('HTTP/1.0 404');
+				header('HTTP/2.0 404');
 				die;
 			}
 
