@@ -13,7 +13,7 @@ class Dispatcher
 	protected $methodName;
 
 
-	// EXPLAIN: ...
+	// NOTE: Assign request array data to controller and method relatively
 	public function __construct(array $data)
 	{
 		$this->className = ucfirst($data[0] ?? DEFAULT_CONTROLLER_NAME);
@@ -21,10 +21,9 @@ class Dispatcher
 	}
 
 
-	// EXPLAIN: ...
+	
 	public function dispatch()
 	{
-		// EXPLAIN: ...
 		if (empty($this->className)) 
 		{
 			header('Location: ' . Url::getCurrentPath());
@@ -32,6 +31,9 @@ class Dispatcher
 		}
 		else
 		{
+			// NOTE: Format a supposed controller full-path classname and 
+			// instantiate a new controller-object of that very class-name.
+			// If method not exists, set error-404 header and exit/die.
 			$className = '\controllers\\' . $this->className . 'Controller';
 			$objController = new $className();
 
@@ -39,8 +41,7 @@ class Dispatcher
 			{
 				$objController->{$this->methodName}();
 			}
-			else 
-			{
+			else {
 				header('HTTP/2.0 404');
 				die;
 			}
