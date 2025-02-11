@@ -22,8 +22,7 @@ class Task
     public static $slice = array();
 
 
-    // NOTE: Soft Dependency Injection method(... , \PDO $pdo = null) /
-    // down here in this class is used for future unit testing purposes
+    // NOTE: Soft Dependency Injection method(... , \PDO $pdo = null) is used for testing purposes
     public static function populateSlice(string $orderBy, int $limit, int $offset, \PDO $pdo = null) : void
     {
         if (!isset($pdo)) 
