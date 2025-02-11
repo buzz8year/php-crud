@@ -150,7 +150,7 @@ class Task
             // is not used to write to text value, for the convience of parsing 
             // xss-potential injection attempts and trials, chiefly on big portions of data.
 
-            // JUSTIFY: Instead, htmlspecialchars() or one of its siblings 
+            // NOTE: Instead, htmlspecialchars() or one of its siblings 
             // is obligatory on rendering xss-potential data in client browser.
             return $handle->execute(
                 array(
@@ -204,7 +204,7 @@ class Task
             // is not used to write to text value, for the convience of parsing 
             // xss-potential injection attempts and trials, chiefly on big portions of data.
 
-            // JUSTIFY: Instead, htmlspecialchars() or one of its siblings 
+            // NOTE: Instead, htmlspecialchars() or one of its siblings 
             // is obligatory on rendering xss-potential data in client browser.
 
             return $handle->execute(
