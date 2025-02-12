@@ -20,7 +20,6 @@ class Dispatcher
 		$this->methodName = strval($data[1] ?? self::DEFAULT_METHODNAME);
 	}
 
-
 	
 	public function dispatch()
 	{
@@ -29,10 +28,9 @@ class Dispatcher
 			header('Location: ' . Url::getCurrentPath());
 			die;
 		}
-		else
-		{
-			// NOTE: Format a supposed controller full-path classname and 
-			// instantiate a new controller-object of that very class-name.
+		else {
+			// NOTE: Format assumed controller namespace and 
+			// instantiate a new controller-object of that very namespace.
 			// If method not exists, set error-404 header and exit/die.
 			$className = '\controllers\\' . $this->className . 'Controller';
 			$objController = new $className();
