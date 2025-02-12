@@ -12,82 +12,58 @@ use helpers\Validator;
 use helpers\Strings;
 
 
-// EXPLAIN: ...
 class TaskController extends BaseController
 {
 	const PAGE_FIRST = 1;
 	const PAGE_LIMIT = 3;
 
-	// EXPLAIN: ...
 	public $prepared;
 
 	private $args;
 	private $countAll;
 	private $sortInvert;
 
-
-
-	// EXPLAIN: ...
+	
 	public function __construct() 
 	{
 		$this->countAll = (int)Task::countAll();
 	}
 
-
-
-	// EXPLAIN: ...
+	
 	private function processGet() : void
 	{
-		// EXPLAIN: ...
 		$toSesssion = [
 			'sort' => Task::SORT_DEFAULT,
 			'page' => self::PAGE_FIRST,
 		];
 
-		// EXPLAIN: ...
 		if (empty($_GET['page'])) 
-		{
 			$toSession['page'] = self::PAGE_FIRST;
-		} 
-		else 
-		{
-			$toSession['page'] = $_GET['page'];
-		}
+			
+		else $toSession['page'] = $_GET['page'];
 
 
-		// EXPLAIN: ...
 		if (!empty($_GET['sort'])) 
 		{
 			$toSession['sort'] = $_GET['sort'];
 			$this->sortInvert = boolval(strpos($_GET['sort'], '-') === false);
 
-			// EXPLAIN: ...
 			if (!$this->sortInvert && ltrim($_GET['sort'], '-') !== ltrim($_SESSION['args']['sort'], '-')) 
-			{
 				$toSession['page'] = intval($_SESSION['page-amount']);
-			}
-
 		}
 		elseif (!empty($_SESSION['args']['sort'])) 
-		{
 			$toSession['sort'] = $_SESSION['args']['sort'];
-		}	
-		else 
-		{
-			$toSession['sort'] = Task::SORT_DEFAULT;
-		}
+			
+		else $toSession['sort'] = Task::SORT_DEFAULT;
 
 
-
-		// EXPLAIN: ...
 		if (isset($_SESSION['args']) && empty(array_diff($toSession, $_SESSION['args']))) 
 		{
 			// TODO: Remove
 			// var_dump($toSession);
 			// var_dump($_SESSION);
 		}
-		else 
-		{
+		else {
 			$_SESSION['args'] = $toSession;
 			$query = '?r=task&sort=' . $toSession['sort'] . '&page=' . $toSession['page'];
 
@@ -97,12 +73,9 @@ class TaskController extends BaseController
 	}
 
 
-
-
 	// EXPLAIN: Default
 	public function index() : void
 	{
-		// EXPLAIN: ...
 		$this->processGet();
 
 		$limit = self::PAGE_LIMIT;
@@ -111,11 +84,9 @@ class TaskController extends BaseController
 
 		$this->prepared = Task::getSlice($orderBy, $limit, $offset);
 
-		// EXPLAIN: ...
 		$pages = intval($this->countAll / self::PAGE_LIMIT) + intval($this->countAll % self::PAGE_LIMIT > 0 ? 1 : 0);
 		$_SESSION['page-amount'] = $pages;
 
-		// EXPLAIN: ...
 		$data = array(
 			'pages' 		=> $pages,
 			'tasks' 		=> $this->prepared,
@@ -132,14 +103,9 @@ class TaskController extends BaseController
 	}
 
 
-
-
-
-
 	// EXPLAIN: Create new task
 	public function create() : void
 	{
-		// EXPLAIN: ...
 		if (!empty($_POST) && $this->validate()) 
 		{
 			$task = new Task();
@@ -152,7 +118,6 @@ class TaskController extends BaseController
 			}
 		}
 
-		// EXPLAIN: ...
 		$data = [
 			'message' => empty($_SESSION['flash']['message']) ? null : $_SESSION['flash']['message'],
 			'form_action' => Url::getCurrentPath(),
@@ -163,18 +128,14 @@ class TaskController extends BaseController
 	}
 
 
-	// EXPLAIN: ...
 	public function update() : void
 	{
-		// EXPLAIN: ...
 		if (UserAuth::isUserAuthenticated()) 
 		{
-			// EXPLAIN: ...
 			if (!empty($_GET['id'])) 
 			{
 				$task = Task::get($_GET['id']);
 
-				// EXPLAIN: ...
 				if (!empty($task) && !empty($_POST) && $this->validate()) 
 				{
 					if ($_POST['task_text'] === $task->getText()) 
@@ -190,7 +151,6 @@ class TaskController extends BaseController
 					}
 				}
 
-				// EXPLAIN: ...
 				$data = array(
 					'task' => $task,
 					'message' => empty($_SESSION['flash']['message']) ? null : $_SESSION['flash']['message'],
@@ -216,21 +176,14 @@ class TaskController extends BaseController
 	}
 
 
-
-
-	// EXPLAIN: ...
 	public function finalize() : void
 	{
 		if (UserAuth::isUserAuthenticated()) 
 		{
-			// EXPLAIN: ...
 			if (!empty($_POST['id']) && ($task = Task::get($_POST['id']))) 
 			{
-				// EXPLAIN: ...
 				if ($task->update(['task_status' => Task::STATUS_COMPLETED]))
-				{
 					$_SESSION['flash']['message'] = 'Task #' . $task->getId() . ' has been successfully completed';
-				}
 			}
 		}
 		else
@@ -241,9 +194,6 @@ class TaskController extends BaseController
 	}
 
 
-
-
-	// EXPLAIN: ...
 	protected function validate() : bool
 	{
 		if (empty($_POST['task_usermail']) || empty($_POST['task_name']) || empty($_POST['task_text'])) 
@@ -266,8 +216,5 @@ class TaskController extends BaseController
 
 		return true;
 	}
-
-
-
 
 }
