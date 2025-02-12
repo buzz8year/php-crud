@@ -3,50 +3,41 @@
 namespace helpers;
 
 
-// EXPLAIN: ...
 class Url
 {
-    // EXPLAIN: ...
-    public static function getBasePath()
+    public static function isHttps(): boolean
     {
-        // EXPLAIN: ...
-        $https =
-            (
-                (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-                || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)
-                || (getenv('HTTP_X_FORWARDED_PROTO') === 'https')
-                || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
-            );
-
-        $protocol = $https ? 'https://' : 'http://';
+        $headerHttpsOk = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+        $headerPortOk = isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443;
         
-        // EXPLAIN: ...
+        $headerForwardedOk = isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https';
+        $envForwarderOk = getenv('HTTP_X_FORWARDED_PROTO') === 'https';
+        
+        return $headerHttpsOk || $headerPortOk || $headerForwardedOk || $envForwarderOk;
+    }
+    
+    
+    public static function getBasePath(): string
+    {
+        $protocol = self::isHttps() : ? 'https://' : 'http://';
         $domainName = isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] ? $_SERVER['HTTP_HOST'] : 'localhost';
-
-        // EXPLAIN: ...
         $public = '/public/';
 
-        // WARNING: filter_var() returns (bool)false if filter is not validated, - rethink...
+        // WARNING: filter_var() returns (bool)false if filter is not validated
         return filter_var($protocol . $domainName . $public, FILTER_VALIDATE_URL);        
     }
 
 
-    // EXPLAIN: ...
-    public static function getCurrentPath()
+    public static function getCurrentPath(): mixed
     {
-        // EXPLAIN: ...
         $basePath = self::getBasePath();
 
-        // EXPLAIN: ...
         $controllerMethod = '?r=' . rtrim($_GET['r'] ?? DEFAULT_CONTROLLER_NAME, '/');
 
-        // EXPLAIN: ...
         if (!empty($_GET['id'])) 
-        {
             $controllerMethod .= '&id=' . $_GET['id'];
-        }
 
-        // WARNING: filter_var() returns (bool)false if filter is not validated, - rethink...
+        // WARNING: filter_var() returns (bool)false if filter is not validated
         return filter_var($basePath . $controllerMethod, FILTER_VALIDATE_URL);
     }
 
