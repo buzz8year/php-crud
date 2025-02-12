@@ -2,7 +2,6 @@
 
 namespace helpers;
 
-
 class Validator
 {
 	public static function is_email(string $string) : bool
@@ -13,7 +12,6 @@ class Validator
 		
 		return false;
 	}
-
 
 	public static function is_alnum(string $string) : bool
 	{
