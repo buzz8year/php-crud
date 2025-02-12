@@ -9,10 +9,10 @@ use app\Dispatcher;
 try {
 	session_start();
 
-	// EXPLAIN: ...
-	$data = empty($_GET['r']) ? array() : explode('/', $_GET['r']);
+	$data = empty($_GET['r']) 
+		? array() 
+		: explode('/', $_GET['r']);
 
-	// EXPLAIN: ...
 	$dispatcher = new Dispatcher($data);
 	$dispatcher->dispatch();
 
