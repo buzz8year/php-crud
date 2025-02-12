@@ -4,10 +4,8 @@ namespace db;
 
 class PDOFactory
 {
-
     protected static $pdo_written_instance;
     protected static $pdo_red_instance;
-
 
     public static function writeInstance()
     {
