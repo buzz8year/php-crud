@@ -10,7 +10,6 @@ use helpers\Url;
 
 class AuthController extends BaseController
 {
-	// EXPLAIN: ...
 	public function login() : void
 	{
 		if (UserAuth::isUserAuthenticated()) {
@@ -18,7 +17,6 @@ class AuthController extends BaseController
 			$this->redirect();
 		}
 
-		// EXPLAIN: ...
 		if (!empty($_POST)) 
 		{
 			$login = $_POST['login'];
@@ -40,7 +38,6 @@ class AuthController extends BaseController
 
 		}
 
-		// EXPLAIN: ...
 		$data = array(
 			'message' => $_SESSION['flash']['message'] ?? null,
 			'form_action' => Url::getCurrentPath(),
@@ -51,7 +48,6 @@ class AuthController extends BaseController
 	}
 
 
-	// EXPLAIN: ...
 	public function logout() : void
 	{
 		if (UserAuth::isUserAuthenticated()) 
