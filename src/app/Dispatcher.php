@@ -36,9 +36,8 @@ class Dispatcher
 			$objController = new $className();
 
 			if (method_exists($objController, $this->methodName))
-			{
 				$objController->{$this->methodName}();
-			}
+			
 			else {
 				header('HTTP/2.0 404');
 				die;
