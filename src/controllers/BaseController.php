@@ -15,27 +15,20 @@ use interfaces\ControllerInterface;
 
 class BaseController implements ControllerInterface
 {
-	// EXPLAIN: ...
 	public function refresh()
 	{
-		// EXPLAIN: Refreshing page
 		header('Location: ' . Url::getCurrentPath());
 		die;
 	}
 
-
-	// EXPLAIN: ...
 	public function redirect(string $query = null)
 	{
-		// EXPLAIN: ...
 		header('Location: ' . Url::getBasePath() . $query);
 		die;
 	}
 
-
 	public function view(string $template, array $data)
 	{
-		// EXPLAIN: ...
 		$view = new View($template);
 		$view->render($data);
 
