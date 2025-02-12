@@ -7,12 +7,9 @@ class Validator
 {
 	public static function is_email(string $string) : bool
 	{
-		// EXPLAIN: filter_var() returns the filtered data, or FALSE if the filter fails.
-		// REPORT: Reported as bug to php.net
+		// NOTE: filter_var() returns the filtered data, or FALSE if the filter fails. Reported as bug to php.net
 		if (filter_var($string, FILTER_VALIDATE_EMAIL)) 
-		{
 			return true;
-		}
 		
 		return false;
 	}
@@ -22,6 +19,5 @@ class Validator
 	{
 		return ctype_alnum(str_replace(' ', '', $string));
 	}
-
 
 }
