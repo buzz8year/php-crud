@@ -4,6 +4,6 @@
 
 # Vanila PHP app implementation
 
-No-libraries implementation of PHP application. Request Dispacthing, Database Layer, User Authentication, CRUD (create, read, update, delete) entity operations and session-based pagination.
+No-libraries implementation of PHP application. Initialize, Request Dispacth, Database Layer, User Authentication, CRUD entity operations, pagination.
 
 Php-developer job-offer code stage.
